@@ -1,8 +1,17 @@
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+
+import { Outlet } from "react-router-dom";
+
 function App() {
   return (
-    <div>
-      <h1>this is frontend setup</h1>
-    </div>
+    <>
+      <Header />
+
+      <Outlet />
+
+      <Footer />
+    </>
   );
 }
 
