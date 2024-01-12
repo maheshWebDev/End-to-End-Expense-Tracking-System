@@ -50,6 +50,26 @@ const Header = () => {
                 About Me
               </Link>
             </li>
+            <li className={`nav-item ${isActiveLink("/Login") && "active"}`}>
+              <Link
+                to="/Login"
+                className={`nav-link text-white ${
+                  isActiveLink("/Login") ? "border-bottom border-2" : ""
+                }`}
+              >
+                Login
+              </Link>
+            </li>
+            <li className={`nav-item ${isActiveLink("/Sign-up") && "active"}`}>
+              <Link
+                to="/Sign-up"
+                className={`nav-link text-white ${
+                  isActiveLink("/Sign-up") ? "border-bottom border-2" : ""
+                }`}
+              >
+                Signup
+              </Link>
+            </li>
           </ul>
         </div>
       </div>

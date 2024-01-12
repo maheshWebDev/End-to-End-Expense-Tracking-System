@@ -9,6 +9,8 @@ import App from "./App";
 import Home from "./components/Home";
 import FeatureContainer from "./components/FeatureContainer";
 import AboutMe from "./components/AboutMe";
+import Login from "./components/Login";
+import Registration from "./components/Registration";
 
 const AppRouter = createBrowserRouter([
   {
@@ -26,6 +28,14 @@ const AppRouter = createBrowserRouter([
       {
         path: "/About-Me",
         element: <AboutMe />,
+      },
+      {
+        path: "/Login",
+        element: <Login />,
+      },
+      {
+        path: "/Sign-up",
+        element: <Registration />,
       },
     ],
   },
