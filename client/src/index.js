@@ -1,4 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-toastify/dist/ReactToastify.css";
 
 import "./index.css";
 import React from "react";
@@ -11,6 +12,7 @@ import FeatureContainer from "./components/FeatureContainer";
 import AboutMe from "./components/AboutMe";
 import Login from "./components/Login";
 import Registration from "./components/Registration";
+import Dashboard from "./components/Dashboard";
 
 const AppRouter = createBrowserRouter([
   {
@@ -36,6 +38,10 @@ const AppRouter = createBrowserRouter([
       {
         path: "/Sign-up",
         element: <Registration />,
+      },
+      {
+        path: "/dashboard",
+        element: <Dashboard />,
       },
     ],
   },

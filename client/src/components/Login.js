@@ -1,14 +1,17 @@
 // Login.js
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Login = () => {
   // State variables to manage form input values
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   // Handle form submission
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
 
     // Gather login data from state
@@ -18,6 +21,31 @@ const Login = () => {
     };
     console.log("Login Data:", loginData);
 
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/login",
+        loginData
+      );
+
+      console.log(response);
+      if (response.status === 200) {
+        toast.success("Login successful");
+        // Redirect to another page
+        navigate("/dashboard");
+      } else {
+        toast.error(response.data?.error || "Login failed");
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+
+      if (error.response) {
+        toast.error(error.response.data.error || "Login failed");
+      } else if (error.request) {
+        toast.error("Network error. Please try again.");
+      } else {
+        toast.error("Error during login. Please try again.");
+      }
+    }
     // Clear form inputs after submission
     setEmail("");
     setPassword("");

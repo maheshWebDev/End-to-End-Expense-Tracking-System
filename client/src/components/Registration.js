@@ -2,23 +2,47 @@
 
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+
+import axios from "axios";
 
 const Registration = () => {
   // State variables to manage form input values
-  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // Handle form submission
-  const handleRegistrationSubmit = (e) => {
+  const handleRegistrationSubmit = async (e) => {
     e.preventDefault();
 
-    // Gather registration data from state
-    const registrationData = { name, email, password };
+    const registrationData = { username, email, password };
     console.log("Registration Data:", registrationData);
 
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/register",
+        registrationData
+      );
+
+      if (response.status === 201) {
+        toast.success(response.data.message);
+      } else {
+        toast.error(response.data?.error || "Registration failed");
+      }
+    } catch (error) {
+      console.error("Error during registration:", error);
+
+      if (error.response) {
+        toast.error(error.response.data.error || "Registration failed");
+      } else if (error.request) {
+        toast.error("Network error. Please try again.");
+      } else {
+        toast.error("Error during registration. Please try again.");
+      }
+    }
+
     // Clear form inputs after submission
-    setName("");
+    setUsername("");
     setEmail("");
     setPassword("");
   };
@@ -40,9 +64,9 @@ const Registration = () => {
                         <input
                           type="text"
                           className="form-control"
-                          value={name}
+                          value={username}
                           onChange={(e) => {
-                            setName(e.target.value);
+                            setUsername(e.target.value);
                           }}
                         />
                       </div>
