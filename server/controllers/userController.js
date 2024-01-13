@@ -1,4 +1,6 @@
 const User = require("../models/userModel");
+const bcrypt = require("bcrypt");
+const jwtMiddleware = require("../middleware/jwtMiddleware");
 
 exports.registerUser = async (req, res) => {
   try {
@@ -10,11 +12,15 @@ exports.registerUser = async (req, res) => {
       return res.status(400).json({ error: "Email already in use" });
     }
 
+    const saltRounds = 10; // The number of salt rounds for hashing
+
+    // Hash the password before saving it to the database
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
     // Create a new user
     await User.create({
       username,
       email,
-      password,
+      password: hashedPassword,
     });
 
     res.status(201).json({ message: "User registered successfully" });
@@ -35,12 +41,24 @@ exports.loginUser = async (req, res) => {
       return res.status(401).json({ error: "User not found" });
     }
 
-    // Match the provided password with the stored password
-    if (password === user.password) {
-      res.status(200).json({ message: "User logged in successfully" });
-    } else {
-      res.status(401).json({ error: "Incorrect password" });
+    // Compare the provided password with the stored hashed password
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordMatch) {
+      return res.status(401).json({ message: "Invalid password" });
     }
+
+    // Generate a JWT token and send it to the client
+    const token = jwtMiddleware.generateToken({ userId: user._id });
+
+    res
+      .status(200)
+      .json({
+        message: "User logged in successfully",
+        userId: user._id,
+        username: user.username,
+        token,
+      });
   } catch (error) {
     res.status(500).json({ error: "Login failed", details: error.message });
   }
