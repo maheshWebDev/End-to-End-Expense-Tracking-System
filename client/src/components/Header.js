@@ -1,8 +1,18 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
-const Header = () => {
+const Header = ({ authenticated, setAuthenticated }) => {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Remove user information from local storage
+    localStorage.removeItem("userData");
+    // Update state to reflect authentication status
+    setAuthenticated(false);
+    // Optionally, redirect to the login page
+    navigate("/login");
+  };
 
   const isActiveLink = (path) => {
     return location.pathname === path;
@@ -50,26 +60,59 @@ const Header = () => {
                 About Me
               </Link>
             </li>
-            <li className={`nav-item ${isActiveLink("/Login") && "active"}`}>
-              <Link
-                to="/Login"
-                className={`nav-link text-white ${
-                  isActiveLink("/Login") ? "border-bottom border-2" : ""
-                }`}
-              >
-                Login
-              </Link>
-            </li>
-            <li className={`nav-item ${isActiveLink("/Sign-up") && "active"}`}>
-              <Link
-                to="/Sign-up"
-                className={`nav-link text-white ${
-                  isActiveLink("/Sign-up") ? "border-bottom border-2" : ""
-                }`}
-              >
-                Signup
-              </Link>
-            </li>
+            {authenticated ? (
+              <>
+                <li
+                  className={`nav-item ${isActiveLink("/Sign-up") && "active"}`}
+                >
+                  <Link
+                    to="/dashboard"
+                    className={`nav-link text-white ${
+                      isActiveLink("/Sign-up") ? "border-bottom border-2" : ""
+                    }`}
+                  >
+                    dashboard
+                  </Link>
+                </li>
+                <li
+                  className={`nav-item ${isActiveLink("/Sign-up") && "active"}`}
+                >
+                  <button
+                    className="btn btn-danger btn-sm m-2"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                </li>
+              </>
+            ) : (
+              <>
+                <li
+                  className={`nav-item ${isActiveLink("/Login") && "active"}`}
+                >
+                  <Link
+                    to="/Login"
+                    className={`nav-link text-white ${
+                      isActiveLink("/Login") ? "border-bottom border-2" : ""
+                    }`}
+                  >
+                    Login
+                  </Link>
+                </li>
+                <li
+                  className={`nav-item ${isActiveLink("/Sign-up") && "active"}`}
+                >
+                  <Link
+                    to="/Sign-up"
+                    className={`nav-link text-white ${
+                      isActiveLink("/Sign-up") ? "border-bottom border-2" : ""
+                    }`}
+                  >
+                    Signup
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>

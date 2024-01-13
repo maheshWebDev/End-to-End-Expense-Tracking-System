@@ -30,6 +30,15 @@ const Login = () => {
       console.log(response);
       if (response.status === 200) {
         toast.success("Login successful");
+        const userData = {
+          userId: response.data.userId,
+          username: response.data.username,
+          token: response.data.token,
+        };
+
+        // Store user information in local storage
+        localStorage.setItem("userData", JSON.stringify(userData));
+
         // Redirect to another page
         navigate("/dashboard");
       } else {
