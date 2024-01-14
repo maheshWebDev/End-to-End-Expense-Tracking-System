@@ -71,7 +71,7 @@ const Header = ({ authenticated, setAuthenticated }) => {
                       isActiveLink("/Sign-up") ? "border-bottom border-2" : ""
                     }`}
                   >
-                    dashboard
+                    Dashboard
                   </Link>
                 </li>
                 <li

@@ -157,3 +157,7 @@ body {
   box-shadow: 0 5px #0b0a0a;
   transform: translateY(4px);
 }
+
+.continue:disabled {
+  cursor: not-allowed;
+}
