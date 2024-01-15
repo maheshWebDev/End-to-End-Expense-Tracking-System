@@ -12,7 +12,7 @@ function EditExpense({ setEditMode, expense, onUpdate }) {
       description,
       amount,
     };
-    onUpdate(expense.id, newUpdatedExpense);
+    onUpdate(expense._id, newUpdatedExpense);
     setEditMode(false); // Optionally, you can close the edit mode here
   };
 
@@ -24,15 +24,21 @@ function EditExpense({ setEditMode, expense, onUpdate }) {
     <>
       <tr>
         <td>
-          <input
-            type="text"
+          <select
+            className="form-select"
             value={expenseType}
-            onChange={(e) => {
-              setExpenseType(e.target.value);
-            }}
-            className="form-control"
-            placeholder="Enter Article Name"
-          />
+            onChange={(e) => setExpenseType(e.target.value)}
+          >
+            <option value="" disabled>
+              Select Expense Type
+            </option>
+            <option value="Groceries">Groceries</option>
+            <option value="Utilities">Utilities</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Dining">Dining</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Other">Other</option>
+          </select>
         </td>
         <td>
           <input
@@ -40,7 +46,7 @@ function EditExpense({ setEditMode, expense, onUpdate }) {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             className="form-control "
-            placeholder="Enter Author Name"
+            placeholder="Enter Expense Description"
           />
         </td>
         <td>

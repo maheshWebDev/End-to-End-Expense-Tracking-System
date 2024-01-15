@@ -161,3 +161,8 @@ body {
 .continue:disabled {
   cursor: not-allowed;
 }
+
+/* Add more styles as needed */
+.container {
+  padding: 0.5rem 0rem;
+}

@@ -16,7 +16,6 @@ const ExpenseForm = ({ onAddExpense }) => {
   const handleExpenseFormSubmit = (e) => {
     e.preventDefault();
     const expenseFormData = {
-      id: Math.round(Math.random() * 9999),
       expenseType,
       amount,
       description,
@@ -67,7 +66,7 @@ const ExpenseForm = ({ onAddExpense }) => {
                 <option value="Entertainment">Entertainment</option>
                 <option value="Dining">Dining</option>
                 <option value="Shopping">Shopping</option>
-                <option value="Shopping">Other</option>
+                <option value="Other">Other</option>
               </select>
             </div>
             {/* Amount input */}

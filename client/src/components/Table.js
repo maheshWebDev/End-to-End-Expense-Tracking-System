@@ -33,7 +33,7 @@ function TableRow({ expense, onDelete, onUpdate }) {
             <button
               type="button"
               className="btn btn-danger m-1"
-              onClick={() => onDelete(expense.id)}
+              onClick={() => onDelete(expense._id)}
             >
               <FaTrashAlt />
             </button>
@@ -68,8 +68,8 @@ const Table = ({ listOfExpense, onDelete, onUpdate }) => {
           <table className="table table-bordered">
             <thead>
               <tr>
-                <th scope="col">Description</th>
                 <th scope="col">Type</th>
+                <th scope="col">Description</th>
                 <th scope="col">Amount</th>
                 <th scope="col">Actions</th>
               </tr>
@@ -78,7 +78,7 @@ const Table = ({ listOfExpense, onDelete, onUpdate }) => {
               {listOfExpense.map((expense) => (
                 <TableRow
                   expense={expense}
-                  key={expense.id}
+                  key={expense._id}
                   onDelete={onDelete}
                   onUpdate={onUpdate}
                 />
