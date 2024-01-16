@@ -9,6 +9,7 @@ const mongoose = require("mongoose");
 const userRouter = require("./routes/userRouter");
 const expenseRouter = require("./routes/expenseRouter");
 const { authenticateUser } = require("./middleware/authMiddleware");
+const premiumRouter = require("./routes/premiumRouter");
 
 const app = express();
 const port = 8000;
@@ -35,6 +36,8 @@ app.use(userRouter);
 
 // Expense routes
 app.use("/api", authenticateUser, expenseRouter);
+
+app.use("/api", authenticateUser, premiumRouter);
 
 // Database Connection
 mongoose

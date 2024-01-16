@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema({
     required: [true, "Password is required."],
     minlength: [6, "Password must be at least 6 characters long."],
   },
+  isPremiumUser: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 // Create the user model based on the schema.
