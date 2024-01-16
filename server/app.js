@@ -8,7 +8,9 @@ const helmet = require("helmet");
 const mongoose = require("mongoose");
 const userRouter = require("./routes/userRouter");
 const expenseRouter = require("./routes/expenseRouter");
+const leaderboardRouter = require("./routes/leaderboardRouter");
 const { authenticateUser } = require("./middleware/authMiddleware");
+const { checkPremiumUser } = require("./middleware/premiumUserMiddleware");
 const premiumRouter = require("./routes/premiumRouter");
 
 const app = express();
@@ -39,6 +41,8 @@ app.use("/api", authenticateUser, expenseRouter);
 
 app.use("/api", authenticateUser, premiumRouter);
 
+// Use the leaderboard router
+app.use("/api", authenticateUser, checkPremiumUser, leaderboardRouter);
 // Database Connection
 mongoose
   .connect(process.env.DB_CONNECTION_STRING, {
