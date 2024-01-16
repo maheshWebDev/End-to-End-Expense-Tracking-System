@@ -13,6 +13,7 @@ import AboutMe from "./components/AboutMe";
 import Login from "./components/Login";
 import Registration from "./components/Registration";
 import Dashboard from "./components/Dashboard";
+import Leaderboard from "./components/Leaderboard";
 
 const AppRouter = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const AppRouter = createBrowserRouter([
       {
         path: "/dashboard",
         element: <Dashboard />,
+      },
+      {
+        path: "/leaderboard",
+        element: <Leaderboard />,
       },
     ],
   },
