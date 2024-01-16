@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ExpenseForm from "../components/ExpenseForm";
 import Table from "./Table";
+import ToolBar from "./ToolBar";
 import axios from "axios";
 
 const Dashboard = () => {
@@ -106,6 +107,7 @@ const Dashboard = () => {
   };
   return (
     <div>
+      <ToolBar />
       <ExpenseForm onAddExpense={addExpense} />
       <Table
         listOfExpense={listOfExpense}
