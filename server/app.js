@@ -36,10 +36,9 @@ app.get("/", (req, res) => {
 
 app.use(userRouter);
 
+app.use("/api", authenticateUser, premiumRouter);
 // Expense routes
 app.use("/api", authenticateUser, expenseRouter);
-
-app.use("/api", authenticateUser, premiumRouter);
 
 // Use the leaderboard router
 app.use("/api", authenticateUser, checkPremiumUser, leaderboardRouter);

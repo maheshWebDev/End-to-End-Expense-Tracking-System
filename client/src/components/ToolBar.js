@@ -16,6 +16,21 @@ const ToolBar = () => {
     return userData ? JSON.parse(userData).token : null;
   });
 
+  const handleDownloadExpenses = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.get(
+        "http://localhost:8000/api/expenses/download",
+
+        { headers: { Authorization: authToken } }
+      );
+
+      window.location.href = response.data.fileURL;
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   const handleBuyPremium = async () => {
     try {
       // Make a request to your server to initiate the premium purchase
@@ -120,7 +135,10 @@ const ToolBar = () => {
           </Link>
 
           <div className="btn-group">
-            <button className="m-2 continue btn-responsive">
+            <button
+              className="m-2 continue btn-responsive"
+              onClick={handleDownloadExpenses}
+            >
               <BsDownload /> Download
             </button>
           </div>

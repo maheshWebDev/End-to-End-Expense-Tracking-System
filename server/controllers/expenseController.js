@@ -1,5 +1,11 @@
 const Expense = require("../models/expenseModel");
 
+const stream = require("stream");
+
+const AWS = require("aws-sdk");
+const PDFDocument = require("pdfkit");
+const fs = require("fs");
+
 module.exports.createExpense = async (req, res) => {
   try {
     const { expenseType, description, amount } = req.body;
@@ -109,5 +115,82 @@ module.exports.deleteExpense = async (req, res) => {
     res
       .status(500)
       .json({ message: "Unable to delete expense", error: error.message });
+  }
+};
+
+function generatePDFContent(expenses) {
+  const doc = new PDFDocument();
+
+  // Add a title
+  doc.fontSize(16).text("Expense Report", { align: "center" });
+
+  // Add a line break
+  doc.moveDown();
+
+  // Reset font for expense details
+  doc.font("Helvetica");
+  doc.fontSize(10);
+
+  // Iterate over expenses and add each entry to the PDF
+  expenses.forEach((expense, index) => {
+    doc.fontSize(10).text(`Expense Type: ${expense.expenseType}`);
+    doc.fontSize(10).text(`Description: ${expense.description}`);
+    doc.fontSize(10).text(`Amount: ${expense.amount}`);
+  });
+
+  // Create a readable stream from the PDF document
+  const pdfContentStream = new stream.PassThrough();
+  doc.pipe(pdfContentStream);
+  doc.end();
+
+  return pdfContentStream;
+}
+
+// Function to upload to S3
+function uploadToS3(data, filename) {
+  const BUCKET_NAME = "e2eexpensesystem";
+  const IAM_USER_KEY = process.env.IAM_USER_KEY;
+  const IAM_USER_SECRET = process.env.IAM_USER_SECRET;
+
+  let s3bucket = new AWS.S3({
+    accessKeyId: IAM_USER_KEY,
+    secretAccessKey: IAM_USER_SECRET,
+  });
+
+  let params = {
+    Bucket: BUCKET_NAME,
+    Key: filename,
+    Body: data,
+    ACL: "public-read",
+  };
+
+  return new Promise((resolve, reject) => {
+    s3bucket.upload(params, (err, s3response) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(s3response.Location);
+      }
+    });
+  });
+}
+
+// Example usage in your downloadExpenses function
+module.exports.downloadExpenses = async (req, res) => {
+  try {
+    const expenses = await Expense.find({ user: req.userId });
+
+    const pdfContentStream = generatePDFContent(expenses);
+
+    // console.log(expenses);
+
+    const filename = `Expense${req.userId}/${new Date()}.pdf`;
+
+    const fileURL = await uploadToS3(pdfContentStream, filename);
+    // console.log(fileURL);
+
+    res.status(200).json({ fileURL: fileURL });
+  } catch (error) {
+    res.status(500).json({ fileURL: "", status: "fail", error: error.message });
   }
 };
