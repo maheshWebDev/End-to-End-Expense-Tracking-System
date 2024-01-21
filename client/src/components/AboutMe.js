@@ -73,7 +73,7 @@ const AboutMe = () => {
                   YouTube Live API
                 </p>
                 <a
-                  href="https://github.com/maheshWebDev/End-to-End-Expense-Tracking-System"
+                  href="https://github.com/maheshWebDev/video_streaming_application"
                   className="btn btn-primary"
                   target="_blank"
                   rel="noopener noreferrer"
