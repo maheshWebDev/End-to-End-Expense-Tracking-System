@@ -14,7 +14,7 @@ import Login from "./components/Login";
 import Registration from "./components/Registration";
 import Dashboard from "./components/Dashboard";
 import Leaderboard from "./components/Leaderboard";
-
+import { AuthProvider } from "./contexts/AuthContext";
 const AppRouter = createBrowserRouter([
   {
     path: "/",
@@ -53,4 +53,10 @@ const AppRouter = createBrowserRouter([
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<RouterProvider router={AppRouter} />);
+root.render(
+  <>
+    <AuthProvider>
+      <RouterProvider router={AppRouter} />
+    </AuthProvider>
+  </>
+);

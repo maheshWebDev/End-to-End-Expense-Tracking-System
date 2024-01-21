@@ -1,16 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import AuthContext from "../contexts/AuthContext";
 
-const Header = ({ authenticated, setAuthenticated }) => {
+const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
-
+  const { userId, logout } = useContext(AuthContext);
   const handleLogout = () => {
-    // Remove user information from local storage
-    localStorage.removeItem("userData");
-    // Update state to reflect authentication status
-    setAuthenticated(false);
-    // Optionally, redirect to the login page
+    logout();
     navigate("/login");
   };
 
@@ -24,22 +21,24 @@ const Header = ({ authenticated, setAuthenticated }) => {
       style={{ backgroundColor: "#5c5be5" }}
     >
       <div className="container">
-        <Link className="navbar-brand text-white" to="/">
+        <Link className="navbar-brand text-white" to="#">
           spendWise
         </Link>
 
         <div className="navbar-collapse">
           <ul className="navbar-nav ms-auto">
-            <li className={`nav-item ${isActiveLink("/") && "active"}`}>
-              <Link
-                to="/"
-                className={`nav-link text-white ${
-                  isActiveLink("/") ? "border-bottom border-2" : ""
-                }`}
-              >
-                Home
-              </Link>
-            </li>
+            {!userId && (
+              <li className={`nav-item ${isActiveLink("/") && "active"}`}>
+                <Link
+                  to="/"
+                  className={`nav-link text-white ${
+                    isActiveLink("/") ? "border-bottom border-2" : ""
+                  }`}
+                >
+                  Home
+                </Link>
+              </li>
+            )}
             <li className={`nav-item ${isActiveLink("/Features") && "active"}`}>
               <Link
                 to="/Features"
@@ -60,7 +59,7 @@ const Header = ({ authenticated, setAuthenticated }) => {
                 About Me
               </Link>
             </li>
-            {authenticated ? (
+            {userId ? (
               <>
                 <li
                   className={`nav-item ${isActiveLink("/Sign-up") && "active"}`}
@@ -68,17 +67,15 @@ const Header = ({ authenticated, setAuthenticated }) => {
                   <Link
                     to="/dashboard"
                     className={`nav-link text-white ${
-                      isActiveLink("/Sign-up") ? "border-bottom border-2" : ""
+                      isActiveLink("/dashboard") ? "border-bottom border-2" : ""
                     }`}
                   >
                     Dashboard
                   </Link>
                 </li>
-                <li
-                  className={`nav-item ${isActiveLink("/Sign-up") && "active"}`}
-                >
+                <li className={`nav-item`}>
                   <button
-                    className="btn btn-danger btn-sm m-2"
+                    className={`btn btn-sm m-2 logout-button`}
                     onClick={handleLogout}
                   >
                     Logout

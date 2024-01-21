@@ -1,20 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BsGem, BsFilter, BsDownload } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
+import AuthContext from "../contexts/AuthContext";
 const ToolBar = () => {
-  const [isPremium, setIsPremium] = useState(false);
-
-  useEffect(() => {
-    const isUserPremium = JSON.parse(localStorage.getItem("isPremiumUser"));
-    setIsPremium(isUserPremium);
-  }, []);
-
-  const [authToken] = useState(() => {
-    const userData = localStorage.getItem("userData");
-    return userData ? JSON.parse(userData).token : null;
-  });
+  const { authToken, login, isPremium } = useContext(AuthContext);
 
   const handleDownloadExpenses = async (e) => {
     e.preventDefault();
@@ -62,12 +52,13 @@ const ToolBar = () => {
             );
 
             if (updateStatusResponse.status === 200) {
-              setIsPremium(true);
+              // setIsPremium(true);
               // Store the response data in local storage
-              localStorage.setItem(
-                "isPremiumUser",
-                JSON.stringify(updateStatusResponse.data.isPremiumUser)
-              );
+              // localStorage.setItem(
+              //   "isPremiumUser",
+              //   JSON.stringify(updateStatusResponse.data.isPremiumUser)
+              // );
+              login(updateStatusResponse.data.token);
               alert("Congratulations! You are now a Premium user.");
             } else {
               alert("Failed to update premium status. Please contact support.");
@@ -88,7 +79,7 @@ const ToolBar = () => {
         rzp1.open();
 
         rzp1.on("payment.failed", (response) => {
-          console.log(response);
+          // console.log(response);
           alert("something went wrong");
         });
       } else {

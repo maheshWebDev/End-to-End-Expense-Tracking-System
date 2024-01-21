@@ -49,16 +49,17 @@ exports.loginUser = async (req, res) => {
     }
 
     // Generate a JWT token and send it to the client
-    const token = jwtMiddleware.generateToken({ userId: user._id });
+    const token = jwtMiddleware.generateToken({
+      userId: user._id,
+      isPremiumUser: user.isPremiumUser,
+    });
 
-    res
-      .status(200)
-      .json({
-        message: "User logged in successfully",
-        userId: user._id,
-        username: user.username,
-        token,
-      });
+    res.status(200).json({
+      message: "User logged in successfully",
+      userId: user._id,
+      username: user.username,
+      token,
+    });
   } catch (error) {
     res.status(500).json({ error: "Login failed", details: error.message });
   }

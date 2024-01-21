@@ -57,14 +57,6 @@ module.exports.updateExpense = async (req, res) => {
 
     const userId = req.userId;
 
-    console.log(
-      "request comming for update",
-      id,
-      expenseType,
-      description,
-      amount,
-      userId
-    );
     const updatedExpense = await Expense.findOneAndUpdate(
       { _id: id, user: userId },
       { expenseType, description, amount },
@@ -93,7 +85,6 @@ module.exports.deleteExpense = async (req, res) => {
     console.log("request comming to delete", id);
 
     const userId = req.userId;
-    console.log("userid", userId);
 
     const deletedExpense = await Expense.findByIdAndDelete({
       _id: id,

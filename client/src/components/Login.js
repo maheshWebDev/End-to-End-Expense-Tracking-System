@@ -1,14 +1,16 @@
 // Login.js
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import AuthContext from "../contexts/AuthContext";
 
 const Login = () => {
   // State variables to manage form input values
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   // Handle form submission
   const handleLoginSubmit = async (e) => {
@@ -30,14 +32,10 @@ const Login = () => {
       console.log(response);
       if (response.status === 200) {
         toast.success("Login successful");
-        const userData = {
-          userId: response.data.userId,
-          username: response.data.username,
-          token: response.data.token,
-        };
+        console.log("login", response);
 
         // Store user information in local storage
-        localStorage.setItem("userData", JSON.stringify(userData));
+        login(response.data.token);
 
         // Redirect to another page
         navigate("/dashboard");

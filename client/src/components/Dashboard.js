@@ -1,16 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ExpenseForm from "../components/ExpenseForm";
 import Table from "./Table";
 import ToolBar from "./ToolBar";
 import axios from "axios";
+import { json } from "react-router-dom";
+import AuthContext from "../contexts/AuthContext";
 
 const Dashboard = () => {
-  const [authToken] = useState(() => {
-    const userData = localStorage.getItem("userData");
-    return userData ? JSON.parse(userData).token : null;
-  });
+  const { authToken } = useContext(AuthContext);
 
-  // console.log("token" + authToken);
   const [listOfExpense, setListOfExpense] = useState([]);
 
   useEffect(() => {

@@ -326,3 +326,35 @@ main {
   margin-bottom: 5rem;
   position: relative;
 }
+
+/* logout */
+.logout-button {
+  width: 4.5rem;
+  height: 2.5rem;
+
+  color: #ffffff;
+
+  border-radius: 5px;
+
+  background-color: #5c5be5;
+  border: 0;
+  border: 0.2rem solid #ffffff;
+
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  margin-left: 2px;
+}
+
+.logout-button:hover {
+  background-color: #d53434;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+}
+
+.logout-button:active {
+  background-color: #3838b8;
+  box-shadow: 0 5px #0b0a0a;
+  transform: translateY(4px);
+}

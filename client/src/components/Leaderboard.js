@@ -1,15 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import AuthContext from "../contexts/AuthContext";
 
 const Leaderboard = () => {
   const [leaderboardData, setLeaderboardData] = useState([]);
-
-  const [authToken] = useState(() => {
-    const userData = localStorage.getItem("userData");
-    return userData ? JSON.parse(userData).token : null;
-  });
-
-  const isUserPremium = JSON.parse(localStorage.getItem("isPremiumUser"));
+  const { authToken, isPremium } = useContext(AuthContext);
 
   useEffect(() => {
     getLeaderboardData();
@@ -22,7 +17,7 @@ const Leaderboard = () => {
         {
           headers: {
             Authorization: authToken,
-            "x-is-premium": isUserPremium.toString(),
+            "x-is-premium": isPremium.toString(),
           },
         }
       );

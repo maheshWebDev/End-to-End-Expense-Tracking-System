@@ -41,7 +41,6 @@ module.exports.buyPremiumMembership = async (req, res) => {
 };
 module.exports.updateMembershipStatus = async (req, res) => {
   try {
-    console.log("request coming");
     const userId = req.userId;
     const { payment_id, order_id } = req.body;
 
@@ -61,8 +60,11 @@ module.exports.updateMembershipStatus = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "transaction successful",
-      isPremiumUser: updatedUser.isPremiumUser,
-      token: generateToken({ _id: updatedUser._id }),
+
+      token: generateToken({
+        userId: updatedUser._id,
+        isPremiumUser: updatedUser.isPremiumUser,
+      }),
     });
   } catch (error) {
     console.error("Error updating user to premium:", error.message);

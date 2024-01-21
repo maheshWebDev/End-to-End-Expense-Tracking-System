@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import img from "../images/Managing-Money.png";
 import { Link } from "react-router-dom";
 
@@ -29,19 +29,19 @@ const Home = () => {
           border: "1px solid #17a2b8",
         }}
       >
-        <h1 className="display-4" style={{ marginBottom: "20px" }}>
-          Welcome to spendWise
+        <h1 className="display-4 " style={{ marginBottom: "10px" }}>
+          Welcome to spend wise
         </h1>
         <p
           className="lead"
-          style={{ fontSize: "1.5rem", marginBottom: "30px" }}
+          style={{ fontSize: "1.5rem", marginBottom: "20px" }}
         >
           Your personal expense tracker for making wise financial decisions.
         </p>
         <div>
           <Link
             to="/Sign-up"
-            className="btn btn-lg btn-primary"
+            className="btn btn-lg btn-primary continue"
             style={{ fontSize: "1.25rem" }}
           >
             Get Started
