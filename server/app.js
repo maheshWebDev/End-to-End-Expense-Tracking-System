@@ -14,11 +14,11 @@ const { checkPremiumUser } = require("./middleware/premiumUserMiddleware");
 const premiumRouter = require("./routes/premiumRouter");
 
 const app = express();
-const port = 8000;
+const port = 3000;
 
 // Middleware
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "*",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 204,
@@ -29,10 +29,6 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
-
-app.get("/", (req, res) => {
-  res.send("Hello, this is your Express server!");
-});
 
 app.use(userRouter);
 
@@ -50,7 +46,7 @@ mongoose
   })
   .then(() => {
     console.log("DB connection successful....");
-    app.listen(port, () => {
+    app.listen(process.env.PORT || port, () => {
       console.log(`Server is running on port ${port}`);
     });
   })
